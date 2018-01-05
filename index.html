@@ -3,17 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>My Paint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     <div class="top-bar">
-      <button id="pen-btn">Pen</button>
-      <button id="line-btn">Line</button>
-      <button id="rect-btn">Rect</button>
-      <button id="circle-btn">Circle</button>
-      <button id="fill-btn">Fill</button>
-      <button id="save-btn">Save</button>
-      <button id="undo-btn">Undo</button>
-      <button id="clear-btn">Clear</button>
+      <button id="pen-btn">  Pen <i class="fa fa-paint-brush" aria-hidden="true"></i>  </button>
+      <button id="line-btn">Line  <i class="fa fa-pencil" aria-hidden="true"></i> </button>
+      <button id="rect-btn">Rect <i class="fa fa-square-o" aria-hidden="true"></i> </button>
+      <button id="circle-btn">Circle  <i class="fa fa-circle-thin" aria-hidden="true"></i>  </button>
+      <button id="fill-btn">Fill  <i class="fa fa-plus-square" aria-hidden="true"></i>  </button>
+      <button id="save-btn">Save  <i class="fa fa-folder-open" aria-hidden="true"></i>  </button>
+      <button id="undo-btn">Undo  <i class="fa fa-undo" aria-hidden="true"></i>  </button>
+      <button id="clear-btn">Clear  <i class="fa fa-trash" aria-hidden="true"></i>  </button>
       <input type="color" id="color-picker">
       <input type="range" id="brush-size" min="1" max="50" value="10">
     </div>
@@ -33,11 +34,17 @@
 
       .top-bar {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        background-color: steelblue;
         position: absolute;
-        width: 100%;
+        height: 100%;
+        width: 300px;
+        /*background-color: steelblue;*/
+
+        background: #C9D6FF;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
       }
 
       .top-bar > * {
