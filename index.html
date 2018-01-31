@@ -4,17 +4,23 @@
     <meta charset="utf-8">
     <title>My Paint</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="top-bar">
-      <button id="pen-btn">  Pen <i class="fa fa-paint-brush" aria-hidden="true"></i>  </button>
-      <button id="line-btn">Line  <i class="fa fa-pencil" aria-hidden="true"></i> </button>
-      <button id="rect-btn">Rect <i class="fa fa-square-o" aria-hidden="true"></i> </button>
-      <button id="circle-btn">Circle  <i class="fa fa-circle-thin" aria-hidden="true"></i>  </button>
-      <button id="fill-btn">Fill  <i class="fa fa-plus-square" aria-hidden="true"></i>  </button>
-      <button id="save-btn">Save  <i class="fa fa-folder-open" aria-hidden="true"></i>  </button>
-      <button id="undo-btn">Undo  <i class="fa fa-undo" aria-hidden="true"></i>  </button>
-      <button id="clear-btn">Clear  <i class="fa fa-trash" aria-hidden="true"></i>  </button>
+      <h1>Canvas-Paint</h1>
+      <span>Online Drawing App</span>
+      <br>
+      <button id="pen-btn">  <i class="fa fa-paint-brush" aria-hidden="true"></i> Pen  </button>
+      <button id="line-btn"> <i class="fa fa-pencil" aria-hidden="true"></i> Line </button>
+      <button id="rect-btn"> <i class="fa fa-square-o" aria-hidden="true"></i> Rect </button>
+      <button id="circle-btn"> <i class="fa fa-circle-thin" aria-hidden="true"></i> Circle </button>
+      <button id="fill-btn"> <i class="fa fa-plus-square" aria-hidden="true"></i> Fill </button>
+      <br>
+      <button id="save-btn"> <i class="fa fa-folder-open" aria-hidden="true"></i> Save </button>
+      <button id="undo-btn"> <i class="fa fa-undo" aria-hidden="true"></i> Undo </button>
+      <button id="clear-btn"> <i class="fa fa-trash" aria-hidden="true"></i> Clear </button>
+      <br>
       <input type="color" id="color-picker">
       <input type="range" id="brush-size" min="1" max="50" value="10">
     </div>
@@ -27,267 +33,5 @@
     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="redraw.js"></script>
     <script type="text/javascript" src="script.js"></script>
-    <style media="screen">
-      body {
-        margin: 0;
-      }
-
-      .top-bar {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: absolute;
-        height: 100%;
-        width: 300px;
-        background-color: steelblue;
-
-        background: #C9D6FF;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-      }
-
-      .top-bar > * {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        margin-left: 15px;
-      }
-
-      #draw {
-        display: block;
-        border: 1px solid steelblue;
-      }
-    </style>
   </body>
 </html>
-
-
-<!--
-
-var canvas,
-  ctx,
-  brush = {
-    x: 0,
-    y: 0,
-    color: '#000',
-    size: 10,
-    down: false,
-  },
-  strokes = [],
-  currentStroke = null;
-
-var active_btn = 'pen',
-  rects = [],
-  currentRect = null;
-
-var shapes = {
-  lines: [],
-  currentLine: null,
-  circles: [],
-  currentCircle: null
-}
-
-  function redraw() {
-    ctx.clearRect(0, 0, canvas.width(), canvas.height());
-    for (var i = 0; i < strokes.length; i++) {
-      var s = strokes[i];
-      ctx.strokeStyle = s.color;
-      ctx.lineWidth = s.size;
-      ctx.beginPath();
-      ctx.moveTo(s.points[0].x, s.points[0].y);
-      for (var j = 0; j < s.points.length; j++) {
-        var p = s.points[j];
-        ctx.lineTo(p.x, p.y);
-      }
-      ctx.stroke();
-    }
-
-    // LINE
-    // LINE
-    // LINE
-    for (var i = 0; i < shapes.lines.length; i++) {
-      current = shapes.lines[i];
-      ctx.beginPath();
-      ctx.lineWidth = current.size;
-      ctx.strokeStyle = current.color;
-      ctx.moveTo(current.startX, current.startY);
-      ctx.lineTo(current.endX, current.endY);
-      ctx.stroke();
-    }
-    if (shapes.currentLine != null) {
-      ctx.beginPath();
-      ctx.lineWidth = brush.size;
-      ctx.strokeStyle = brush.color;
-      ctx.moveTo(shapes.currentLine.startX, shapes.currentLine.startY);
-      ctx.lineTo(shapes.currentLine.endX, shapes.currentLine.endY);
-      ctx.stroke();
-    }
-
-    //RECT
-    //RECT
-    //RECT
-    for (var i = 0; i < rects.length; i++) {
-      current = rects[i];
-      ctx.beginPath();
-      ctx.lineWidth = current.size;
-      ctx.strokeStyle = current.color;
-      ctx.rect(current.x, current.y, current.w, current.h);
-      ctx.stroke();
-    }
-    if (currentRect != null) {
-      ctx.beginPath();
-      ctx.lineWidth = brush.size;
-      ctx.strokeStyle = brush.color;
-      ctx.rect(currentRect.x, currentRect.y, currentRect.w, currentRect.h);
-      ctx.stroke();
-    }
-
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.lineTo(300,150);
-    ctx.stroke();
-  }
-
-  function init() {
-    canvas = $('#draw');
-    canvas.attr({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-    ctx = canvas[0].getContext('2d');
-
-    function mouseEvent(e) {
-      if (active_btn == 'pen') {
-        brush.x = e.pageX;
-        brush.y = e.pageY;
-
-        currentStroke.points.push({
-          x: brush.x,
-          y: brush.y,
-        });
-
-        redraw();
-      }
-      if (active_btn == 'line') {
-        shapes.currentLine.endX = e.pageX;
-        shapes.currentLine.endY = e.pageY;
-        redraw();
-      }
-      if (active_btn == 'rect') {
-        currentRect.w = (e.pageX - currentRect.x);
-        currentRect.h = (e.pageY - currentRect.y);
-        redraw();
-      }
-      if (active_btn == 'circle') {
-
-      }
-    }
-
-    // MOUSE DOWN
-    // MOUSE DOWN
-    canvas.mousedown(function(e) {
-      if (active_btn == 'pen'){
-        brush.down = true;
-        currentStroke = {
-          color: brush.color,
-          size: brush.size,
-          points: [],
-        };
-        strokes.push(currentStroke);
-        mouseEvent(e);
-      }
-      if (active_btn == 'line') {
-        brush.down = true;
-        shapes.currentLine = {
-          startX: e.pageX,
-          startY: e.pageY,
-          endX: e.pageX,
-          endY: e.pageY,
-          size: brush.size,
-          color: brush.color
-        }
-        redraw();
-      }
-      if (active_btn == 'rect') {
-        brush.down = true;
-        currentRect = {
-          x: e.pageX,
-          y: e.pageY,
-          size: brush.size,
-          color: brush.color
-        }
-        redraw();
-      }
-
-
-    // MOUSE UP
-    // MOUSE UP
-    }).mouseup(function(e) {
-      if (active_btn == 'pen') {
-        brush.down = false;
-        mouseEvent(e);
-        currentStroke = null;
-      }
-      if (active_btn == 'line') {
-        brush.down = false;
-        shapes.lines.push(shapes.currentLine);
-        currentLine = null;
-      }
-      if (active_btn == 'rect') {
-        brush.down = false;
-        rects.push(currentRect);
-        currentRect = null;
-      }
-
-
-    // MOUSE MOVE
-    // MOUSE MOVE
-    }).mousemove( function(e) {
-      if (brush.down) {
-        mouseEvent(e);
-      }
-    });
-
-    $('#pen-btn').click(function() {
-      active_btn = 'pen';
-    });
-
-    $('#line-btn').click(function() {
-      active_btn = 'line';
-    });
-
-    $('#rect-btn').click(function() {
-      active_btn = 'rect';
-    });
-
-    $('#circle-btn').click(function() {
-      active_btn = 'circle';
-    });
-
-    $('#save-btn').click(function() {
-      // NOT WORKING
-      window.open(canvas[0].toDataURL());
-    });
-    $('#undo-btn').click(function() {
-      strokes.pop();
-      redraw();
-    });
-    $('#clear-btn').click(function() {
-      strokes = [];
-      rects = [];
-      redraw();
-    });
-
-    $('#color-picker').on('input', function() {
-      brush.color = this.value;
-    });
-
-    $('#brush-size').on('input', function() {
-      brush.size = this.value;
-    });
-  }
-
-  $(init);
-
-
- -->

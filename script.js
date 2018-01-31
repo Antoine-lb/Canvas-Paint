@@ -1,11 +1,10 @@
-//Make circles
 var app = {
   canvas: null,
   ctx: null,
   btn: 'pen',
-  all: [],
-  current: null,
-  brush: {
+  all: [], //Holds all the elements made in the canvas
+  current: null, //Holds the current element being edited
+  brush: { //Current editing configuration
       color: '#000',
       size: 10,
       fill: false,
@@ -19,13 +18,10 @@ var app = {
       width: window.innerWidth,
       height: window.innerHeight,
     });
-    // app.canvas.attr({
-    //   width: 900,
-    //   height: 900,
-    // });
     app.ctx = app.canvas[0].getContext('2d');
 
-    function mouseEvent(e) {
+    //Store in app.current
+    function storeCoordinate(e) {
       if (app.btn == 'pen') {
         app.current.points.push({
           x: e.pageX,
@@ -60,7 +56,7 @@ var app = {
           type: 'pen',
           points: [],
         };
-        mouseEvent(e);
+        storeCoordinate(e);
       }
       else if (app.btn == 'line') {
         app.current = {
@@ -100,15 +96,20 @@ var app = {
       }
       redraw();
 
+      //MOUSE UP
+      //MOUSE UP
     }).mouseup(function(e) {
       if (app.current != null) {
         app.brush.down = false;
         app.all.push(app.current);
         app.current = null;
       }
+
+      //MOUSE MOVE
+      //MOUSE MOVE
     }).mousemove( function(e) {
       if (app.brush.down) {
-        mouseEvent(e);
+        storeCoordinate(e);
       }
     });
 
@@ -130,13 +131,14 @@ var app = {
 
     $('#fill-btn').click(function() {
       var text = $('#fill-btn').html();
-      if (text == "Fill") {
+      console.log(text);
+      if (text == ' <i class="fa fa-plus-square" aria-hidden="true"></i> Fill ') {
         app.brush.fill = true;
-        $('#fill-btn').html('Unfill');
+        $('#fill-btn').html(' <i class="fa fa-minus-square" aria-hidden="true"></i> Unfill ');
       }
       else {
         app.brush.fill = false;
-        $('#fill-btn').html('Fill');
+        $('#fill-btn').html(' <i class="fa fa-plus-square" aria-hidden="true"></i> Fill ');
       }
     });
     $('#save-btn').click(function() {
@@ -153,7 +155,6 @@ var app = {
     });
 
     $('#color-picker').on('input', function() {
-      // brush.color = this.value;
       app.brush.color = this.value;
     });
 

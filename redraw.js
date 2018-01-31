@@ -1,9 +1,15 @@
 function redraw() {
   app.ctx.clearRect(0, 0, app.canvas.width(), app.canvas.height());
+
+  //Stores all the elements in temporary variable
   var tmpAll = app.all;
+
+  //Adds the element being edited
   if (app.current != null) {
     tmpAll = tmpAll.concat(app.current);
   }
+
+  //Goes through all the elements to redraw them
   for (var i = 0; i < tmpAll.length; i++) {
     tmp = tmpAll[i];
     app.ctx.beginPath();
